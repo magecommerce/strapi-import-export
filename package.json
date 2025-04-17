@@ -23,9 +23,6 @@
       "default": "./dist/server/index.js"
     }
   },
-  "files": [
-    "dist"
-  ],
   "scripts": {
     "build": "strapi-plugin build",
     "test:ts:back": "run -T tsc -p server/tsconfig.json",
