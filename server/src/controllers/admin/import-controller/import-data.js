@@ -11,17 +11,17 @@ async function importData(ctx) {
 
   const { user } = ctx.state;
   const { data } = ctx.request.body;
-  const { 
-    slug, 
-    data: dataRaw, 
-    format, 
-    idField, 
-    existingAction, 
+  const {
+    slug,
+    data: dataRaw,
+    format,
+    idField,
+    existingAction,
     ignoreMissingRelations,
     allowLocaleUpdates,
     disallowNewRelations
   } = data;
-  
+
   let fileContent;
   try {
     fileContent = await getService('import').parseInputData(format, dataRaw, { slug });
@@ -69,13 +69,6 @@ async function importData(ctx) {
       };
       return;
     }
-  } else if (fileContent?.version === 2) {
-    // Use existing import function for v2
-    res = await importService.importDataV2(fileContent, {
-      slug,
-      user,
-      idField,
-    });
   } else {
     // Use existing import function for v1
     res = await importService.importData(dataRaw, {

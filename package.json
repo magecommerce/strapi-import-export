@@ -45,10 +45,10 @@
     "react-singleton-hook": "^4.0.1"
   },
   "devDependencies": {
-    "@strapi/admin": "^5.8.0",
+    "@strapi/admin": "^5.12.5",
     "@strapi/sdk-plugin": "^5.2.6",
-    "@strapi/strapi": "^5.8.0",
-    "@strapi/typescript-utils": "^5.8.0",
+    "@strapi/strapi": "^5.12.5",
+    "@strapi/typescript-utils": "^5.12.5",
     "@types/react": "^18.3.11",
     "@types/react-dom": "^18.3.0",
     "prettier": "^3.3.3",
@@ -59,9 +59,9 @@
     "typescript": "^5.6.3"
   },
   "peerDependencies": {
-    "@strapi/content-manager": "^5.8.0",
+    "@strapi/content-manager": "^5.12.5",
     "@strapi/sdk-plugin": "^5.2.6",
-    "@strapi/strapi": "^5.8.0",
+    "@strapi/strapi": "^5.12.5",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-router-dom": "^6.26.2",

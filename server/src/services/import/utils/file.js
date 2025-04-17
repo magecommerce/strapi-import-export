@@ -5,7 +5,6 @@ import last from 'lodash/last';
 import trim from 'lodash/trim';
 import os from 'os';
 import path from 'path';
-import fetch from 'node-fetch';
 import { isObjectSafe } from '../../../../libs/objects.js';
 
 async function findOrImportFile(fileEntry, user, { allowedFileTypes }) {
@@ -41,7 +40,7 @@ async function findOrImportFile(fileEntry, user, { allowedFileTypes }) {
       if (!obj.hash) {
         obj.hash = fileData.hash;
       }
-      
+
       // Try finding again with the new hash/name
       file = await findFile(obj, user, allowedFileTypes);
       if (file && isExtensionAllowed(file.ext.substring(1), allowedFileTypes)) {
@@ -99,29 +98,6 @@ const importFile = async ({ url, name, alternativeText, caption }, user) => {
   let file;
   try {
     file = await fetchFile(url);
-    // console.log('importFile', JSON.stringify(file, null, 2));
-
-    // let [uploadedFile] = await strapi
-    //   .plugin('upload')
-    //   .service('upload')
-    //   .upload(
-    //     {
-    //       files: {
-    //         name: file.name,
-    //         type: file.type,
-    //         size: file.size,
-    //         path: file.path,
-    //       },
-    //       data: {
-    //         fileInfo: {
-    //           name: name || file.name,
-    //           alternativeText: alternativeText || '',
-    //           caption: caption || '',
-    //         },
-    //       },
-    //     },
-    //     { user },
-    //   );
 
     let [uploadedFile] = await strapi
       .plugin('upload')
@@ -144,7 +120,6 @@ const importFile = async ({ url, name, alternativeText, caption }, user) => {
         },
         { user },
       );
-
 
     return uploadedFile;
   } catch (err) {

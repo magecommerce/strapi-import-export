@@ -80,13 +80,6 @@ const importData = async (ctx) => {
       };
       return;
     }
-  } else if (fileContent?.version === 2) {
-    // Use existing import function for v2
-    res = await importService.importDataV2(fileContent, {
-      slug,
-      user,
-      idField,
-    });
   } else {
     // Use existing import function for v1
     res = await importService.importData(dataRaw, {
