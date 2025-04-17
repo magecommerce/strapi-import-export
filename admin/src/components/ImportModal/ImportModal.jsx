@@ -125,7 +125,6 @@ export const ImportModal = ({ onClose }) => {
   };
 
   const onOptionsChanged = (options) => {
-    console.log('onOptionsChanged', options);
     setOptions(options);
   };
 
@@ -188,7 +187,6 @@ export const ImportModal = ({ onClose }) => {
 
     // Close any existing connection
     if (sseConnection) {
-      console.log("Closing existing SSE connection");
       sseConnection.close();
     }
 

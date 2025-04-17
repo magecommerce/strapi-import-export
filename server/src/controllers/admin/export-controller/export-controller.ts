@@ -29,11 +29,8 @@ const exportData: Core.ControllerHandler = async (ctx) => {
     deepPopulateComponentRelations = false
   } = dataRaw;
 
-  console.log('exportFormat', exportFormat);
-
   try {
     if (exportFormat === getService('export').formats.JSON_V3) {
-      console.log('exportDataV3');
       data = await getService('export').exportDataV3({
         slug,
         search,
@@ -47,7 +44,6 @@ const exportData: Core.ControllerHandler = async (ctx) => {
         deepPopulateComponentRelations
       });
     } else {
-      console.log('exportData');
       data = await getService('export').exportData({ slug, search, applySearch, exportFormat, relationsAsId, deepness });
     }
 

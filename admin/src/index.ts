@@ -10,7 +10,7 @@ import { Alerts } from './components/Injected/Alerts/Alerts';
 import { ImportModal } from './components/ImportModal/ImportModal';
 // @ts-ignore
 // import { ExportModal } from './components/ExportModal/ExportModal';
-import translations from './translations'; 
+import translations from './translations';
 // @ts-ignore
 import { InjectedImportExportSingleType } from './components/InjectedImportExportSingleType/InjectedImportExportSingleType';
 // @ts-ignore
@@ -73,7 +73,7 @@ export default {
       name: `${PLUGIN_ID}-export`,
       Component: ExportModal,
     });
-      
+
     // app.injectContentManagerComponent('editView', 'right-links', {
     //   name: `${pluginId}-alerts`,
     //   Component: Alerts,
@@ -90,22 +90,8 @@ export default {
       name: `${PLUGIN_ID}-import-export`,
       Component: InjectedImportExportSingleType,
     });
-    // const bulkAction: BulkActionComponent = (props) => {
-    //   return {
-    //     label: 'Export',
-    //     onClick: (event) => {
-    //       console.log(JSON.stringify(props));
-    //     },
-    //     dialog: {
-    //       type: 'modal',
-    //       title: 'Export',
-    //       content
-    //     }
-    //   };
-    // };
 
     (app.getPlugin('content-manager') as unknown as ContentManagerPlugin['config']).apis.addBulkAction(BULK_ACTIONS);
-
   },
 
   async registerTrads(app: any) {

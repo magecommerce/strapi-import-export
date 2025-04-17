@@ -54,8 +54,8 @@ export class ExportProcessor {
         } : {};
 
         const searchParams = this.context.options.applySearch && this.context.options.search ? (
-            typeof this.context.options.search === 'string' ? 
-                JSON.parse(this.context.options.search) : 
+            typeof this.context.options.search === 'string' ?
+                JSON.parse(this.context.options.search) :
                 this.context.options.search
         ) : {};
 
@@ -66,8 +66,6 @@ export class ExportProcessor {
             },
             ...(this.context.options.applySearch && searchParams.sort && { sort: searchParams.sort })
         };
-
-        console.log('FILTERS AND DOCS', JSON.stringify(filtersAndDocs, null, 2));
 
         // Get all draft entries first
         const draftEntries = await this.services.documents(currentSlug as UID.ContentType).findMany({
@@ -82,8 +80,6 @@ export class ExportProcessor {
                 })
             }
         });
-
-        console.log('DRAFT ENTRIES', JSON.stringify(draftEntries, null, 2));
 
         logger.debug(`Found ${draftEntries.length} draft entries`, context);
 
@@ -120,7 +116,7 @@ export class ExportProcessor {
             });
 
             const versions = this.groupByLocale(draftEntry, publishedEntry, model);
-            
+
             // Only add if there are actual differences
             if (versions.draft || versions.published) {
                 this.context.exportedData[contentType].push(versions);
@@ -137,7 +133,7 @@ export class ExportProcessor {
 
         // Always remove localizations from the processed data
         const processEntry = (data) => {
-            const processed = this.processDataWithSchema(data, model, { 
+            const processed = this.processDataWithSchema(data, model, {
                 processLocalizations: true
             });
             delete processed.localizations;
@@ -161,7 +157,7 @@ export class ExportProcessor {
 
                 // Find corresponding published localization
                 const publishedLoc = publishedEntry?.localizations?.find(l => l.locale === locale);
-                
+
                 const draftLocData = processEntry(draftLoc);
                 const publishedLocData = publishedLoc ? processEntry(publishedLoc) : null;
 
@@ -190,9 +186,9 @@ export class ExportProcessor {
     }
 
     private processDataWithSchema(
-        data: any, 
-        schema: Schema.Schema, 
-        options = { 
+        data: any,
+        schema: Schema.Schema,
+        options = {
             processLocalizations: true,
         },
         skipRelationsOverride: boolean | null = null
@@ -200,7 +196,7 @@ export class ExportProcessor {
         if (!data) return null;
 
         const processed = { ...data };
-        
+
         delete processed.id;
         delete processed.documentId;
         delete processed.createdBy;
@@ -215,7 +211,7 @@ export class ExportProcessor {
             if (data[key] === undefined || data[key] === null) continue;
 
             if (key === 'localizations' && options.processLocalizations) {
-                processed[key] = data[key]?.map(localization => 
+                processed[key] = data[key]?.map(localization =>
                     ({...this.processDataWithSchema(localization, schema, { processLocalizations: false }), documentId: localization.documentId})
                 ) || [];
                 continue;
@@ -227,7 +223,7 @@ export class ExportProcessor {
                     processed[key] = this.processRelation(data[key], attr.target, attr, skipRelationsOverride);
                 } else if (isComponentAttribute(attr)) {
                     if (attr.repeatable) {
-                        processed[key] = data[key]?.map(item => 
+                        processed[key] = data[key]?.map(item =>
                             this.processComponent(item, attr.component)
                         ) || [];
                     } else {
@@ -268,7 +264,7 @@ export class ExportProcessor {
                 return [];
             }
             return item.map(relItem => {
-                if (!skipRelations && 
+                if (!skipRelations &&
                     !this.context.wasProcessed(relItem.documentId)) {
                     this.context.addRelation(targetModelUid as UID.ContentType, relItem.documentId);
                 }
@@ -279,7 +275,7 @@ export class ExportProcessor {
                 logger.warn('Expected single item for one relation', { targetModelUid });
                 return null;
             }
-            if (!skipRelations && 
+            if (!skipRelations &&
                 !this.context.wasProcessed(item.documentId)) {
                 this.context.addRelation(targetModelUid as UID.ContentType, item.documentId);
             }
@@ -293,7 +289,7 @@ export class ExportProcessor {
         const componentModel = getModel(componentUid);
         if (!componentModel) return null;
 
-        return this.processDataWithSchema(item, componentModel, { 
+        return this.processDataWithSchema(item, componentModel, {
             processLocalizations: this.context.options.exportAllLocales
         }, this.context.options.skipComponentRelations);
     }
@@ -316,7 +312,7 @@ export class ExportProcessor {
 
     private processMedia(item: any, attr: Schema.Attribute.Media): any {
         if (!item) return null;
-        
+
         const processMediaItem = (mediaItem) => ({
             url: mediaItem.url.startsWith('/') ? this.computeUrl(mediaItem.url) : mediaItem.url,
             name: mediaItem.name,
@@ -341,12 +337,12 @@ export class ExportProcessor {
     private areVersionsEqual(version1: any, version2: any, excludeFields = ['publishedAt']): boolean {
         const v1 = { ...version1 };
         const v2 = { ...version2 };
-        
+
         excludeFields.forEach(field => {
             delete v1[field];
             delete v2[field];
         });
-        
+
         return JSON.stringify(v1) === JSON.stringify(v2);
     }
 
@@ -356,4 +352,4 @@ export class ExportProcessor {
             data: this.context.exportedData
         }, null, '\t');
     }
-} 
+}

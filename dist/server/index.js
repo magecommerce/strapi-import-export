@@ -3954,10 +3954,10 @@ lodash.exports;
           return result2;
         };
       }
-      var bind3 = baseRest(function(func, thisArg, partials) {
+      var bind2 = baseRest(function(func, thisArg, partials) {
         var bitmask = WRAP_BIND_FLAG;
         if (partials.length) {
-          var holders = replaceHolders(partials, getHolder(bind3));
+          var holders = replaceHolders(partials, getHolder(bind2));
           bitmask |= WRAP_PARTIAL_FLAG;
         }
         return createWrap(func, bitmask, thisArg, partials, holders);
@@ -4964,7 +4964,7 @@ lodash.exports;
       var bindAll = flatRest2(function(object2, methodNames) {
         arrayEach2(methodNames, function(key) {
           key = toKey2(key);
-          baseAssignValue2(object2, key, bind3(object2[key], object2));
+          baseAssignValue2(object2, key, bind2(object2[key], object2));
         });
         return object2;
       });
@@ -5161,7 +5161,7 @@ lodash.exports;
       lodash2.assignWith = assignWith;
       lodash2.at = at;
       lodash2.before = before;
-      lodash2.bind = bind3;
+      lodash2.bind = bind2;
       lodash2.bindAll = bindAll;
       lodash2.bindKey = bindKey;
       lodash2.castArray = castArray2;
@@ -5703,10 +5703,8 @@ const exportData$2 = async (ctx) => {
     deepPopulateRelations = false,
     deepPopulateComponentRelations = false
   } = dataRaw;
-  console.log("exportFormat", exportFormat);
   try {
     if (exportFormat === getService("export").formats.JSON_V3) {
-      console.log("exportDataV3");
       data = await getService("export").exportDataV3({
         slug,
         search,
@@ -5720,7 +5718,6 @@ const exportData$2 = async (ctx) => {
         deepPopulateComponentRelations
       });
     } else {
-      console.log("exportData");
       data = await getService("export").exportData({ slug, search, applySearch, exportFormat, relationsAsId, deepness });
     }
     ctx.body = {
@@ -5902,7 +5899,7 @@ var type$1 = TypeError;
 var uri = URIError;
 var abs$1 = Math.abs;
 var floor$1 = Math.floor;
-var max$2 = Math.max;
+var max$1 = Math.max;
 var min$1 = Math.min;
 var pow$1 = Math.pow;
 var round$1 = Math.round;
@@ -6035,77 +6032,93 @@ function requireObject_getPrototypeOf() {
   Object_getPrototypeOf = $Object2.getPrototypeOf || null;
   return Object_getPrototypeOf;
 }
-var ERROR_MESSAGE = "Function.prototype.bind called on incompatible ";
-var toStr$1 = Object.prototype.toString;
-var max$1 = Math.max;
-var funcType = "[object Function]";
-var concatty = function concatty2(a, b) {
-  var arr = [];
-  for (var i = 0; i < a.length; i += 1) {
-    arr[i] = a[i];
-  }
-  for (var j = 0; j < b.length; j += 1) {
-    arr[j + a.length] = b[j];
-  }
-  return arr;
-};
-var slicy = function slicy2(arrLike, offset) {
-  var arr = [];
-  for (var i = offset, j = 0; i < arrLike.length; i += 1, j += 1) {
-    arr[j] = arrLike[i];
-  }
-  return arr;
-};
-var joiny = function(arr, joiner) {
-  var str2 = "";
-  for (var i = 0; i < arr.length; i += 1) {
-    str2 += arr[i];
-    if (i + 1 < arr.length) {
-      str2 += joiner;
+var implementation;
+var hasRequiredImplementation;
+function requireImplementation() {
+  if (hasRequiredImplementation)
+    return implementation;
+  hasRequiredImplementation = 1;
+  var ERROR_MESSAGE = "Function.prototype.bind called on incompatible ";
+  var toStr2 = Object.prototype.toString;
+  var max2 = Math.max;
+  var funcType = "[object Function]";
+  var concatty = function concatty2(a, b) {
+    var arr = [];
+    for (var i = 0; i < a.length; i += 1) {
+      arr[i] = a[i];
     }
-  }
-  return str2;
-};
-var implementation$1 = function bind(that) {
-  var target = this;
-  if (typeof target !== "function" || toStr$1.apply(target) !== funcType) {
-    throw new TypeError(ERROR_MESSAGE + target);
-  }
-  var args = slicy(arguments, 1);
-  var bound;
-  var binder = function() {
-    if (this instanceof bound) {
-      var result = target.apply(
-        this,
+    for (var j = 0; j < b.length; j += 1) {
+      arr[j + a.length] = b[j];
+    }
+    return arr;
+  };
+  var slicy = function slicy2(arrLike, offset) {
+    var arr = [];
+    for (var i = offset, j = 0; i < arrLike.length; i += 1, j += 1) {
+      arr[j] = arrLike[i];
+    }
+    return arr;
+  };
+  var joiny = function(arr, joiner) {
+    var str2 = "";
+    for (var i = 0; i < arr.length; i += 1) {
+      str2 += arr[i];
+      if (i + 1 < arr.length) {
+        str2 += joiner;
+      }
+    }
+    return str2;
+  };
+  implementation = function bind2(that) {
+    var target = this;
+    if (typeof target !== "function" || toStr2.apply(target) !== funcType) {
+      throw new TypeError(ERROR_MESSAGE + target);
+    }
+    var args = slicy(arguments, 1);
+    var bound;
+    var binder = function() {
+      if (this instanceof bound) {
+        var result = target.apply(
+          this,
+          concatty(args, arguments)
+        );
+        if (Object(result) === result) {
+          return result;
+        }
+        return this;
+      }
+      return target.apply(
+        that,
         concatty(args, arguments)
       );
-      if (Object(result) === result) {
-        return result;
-      }
-      return this;
-    }
-    return target.apply(
-      that,
-      concatty(args, arguments)
-    );
-  };
-  var boundLength = max$1(0, target.length - args.length);
-  var boundArgs = [];
-  for (var i = 0; i < boundLength; i++) {
-    boundArgs[i] = "$" + i;
-  }
-  bound = Function("binder", "return function (" + joiny(boundArgs, ",") + "){ return binder.apply(this,arguments); }")(binder);
-  if (target.prototype) {
-    var Empty = function Empty2() {
     };
-    Empty.prototype = target.prototype;
-    bound.prototype = new Empty();
-    Empty.prototype = null;
-  }
-  return bound;
-};
-var implementation = implementation$1;
-var functionBind = Function.prototype.bind || implementation;
+    var boundLength = max2(0, target.length - args.length);
+    var boundArgs = [];
+    for (var i = 0; i < boundLength; i++) {
+      boundArgs[i] = "$" + i;
+    }
+    bound = Function("binder", "return function (" + joiny(boundArgs, ",") + "){ return binder.apply(this,arguments); }")(binder);
+    if (target.prototype) {
+      var Empty = function Empty2() {
+      };
+      Empty.prototype = target.prototype;
+      bound.prototype = new Empty();
+      Empty.prototype = null;
+    }
+    return bound;
+  };
+  return implementation;
+}
+var functionBind;
+var hasRequiredFunctionBind;
+function requireFunctionBind() {
+  if (hasRequiredFunctionBind)
+    return functionBind;
+  hasRequiredFunctionBind = 1;
+  var implementation2 = requireImplementation();
+  functionBind = Function.prototype.bind || implementation2;
+  return functionBind;
+}
 var functionCall;
 var hasRequiredFunctionCall;
 function requireFunctionCall() {
@@ -6139,11 +6152,11 @@ function requireActualApply() {
   if (hasRequiredActualApply)
     return actualApply;
   hasRequiredActualApply = 1;
-  var bind3 = functionBind;
+  var bind2 = requireFunctionBind();
   var $apply2 = requireFunctionApply();
   var $call2 = requireFunctionCall();
   var $reflectApply = requireReflectApply();
-  actualApply = $reflectApply || bind3.call($call2, $apply2);
+  actualApply = $reflectApply || bind2.call($call2, $apply2);
   return actualApply;
 }
 var callBindApplyHelpers;
@@ -6152,7 +6165,7 @@ function requireCallBindApplyHelpers() {
   if (hasRequiredCallBindApplyHelpers)
     return callBindApplyHelpers;
   hasRequiredCallBindApplyHelpers = 1;
-  var bind3 = functionBind;
+  var bind2 = requireFunctionBind();
   var $TypeError2 = type$1;
   var $call2 = requireFunctionCall();
   var $actualApply = requireActualApply();
@@ -6160,7 +6173,7 @@ function requireCallBindApplyHelpers() {
     if (args.length < 1 || typeof args[0] !== "function") {
       throw new $TypeError2("a function is required");
     }
-    return $actualApply(bind3, $call2, args);
+    return $actualApply(bind2, $call2, args);
   };
   return callBindApplyHelpers;
 }
@@ -6225,8 +6238,8 @@ function requireHasown() {
   hasRequiredHasown = 1;
   var call = Function.prototype.call;
   var $hasOwn = Object.prototype.hasOwnProperty;
-  var bind3 = functionBind;
-  hasown = bind3.call(call, $hasOwn);
+  var bind2 = requireFunctionBind();
+  hasown = bind2.call(call, $hasOwn);
   return hasown;
 }
 var undefined$1;
@@ -6240,7 +6253,7 @@ var $TypeError$3 = type$1;
 var $URIError = uri;
 var abs = abs$1;
 var floor = floor$1;
-var max = max$2;
+var max = max$1;
 var min = min$1;
 var pow = pow$1;
 var round = round$1;
@@ -6445,13 +6458,13 @@ var LEGACY_ALIASES = {
   "%WeakMapPrototype%": ["WeakMap", "prototype"],
   "%WeakSetPrototype%": ["WeakSet", "prototype"]
 };
-var bind2 = functionBind;
+var bind = requireFunctionBind();
 var hasOwn$1 = requireHasown();
-var $concat$1 = bind2.call($call, Array.prototype.concat);
-var $spliceApply = bind2.call($apply, Array.prototype.splice);
-var $replace$1 = bind2.call($call, String.prototype.replace);
-var $strSlice = bind2.call($call, String.prototype.slice);
-var $exec = bind2.call($call, RegExp.prototype.exec);
+var $concat$1 = bind.call($call, Array.prototype.concat);
+var $spliceApply = bind.call($apply, Array.prototype.splice);
+var $replace$1 = bind.call($call, String.prototype.replace);
+var $strSlice = bind.call($call, String.prototype.slice);
+var $exec = bind.call($call, RegExp.prototype.exec);
 var rePropName$1 = /[^%.[\]]+|\[(?:(-?\d+(?:\.\d+)?)|(["'])((?:(?!\2)[^\\]|\\.)*?)\2)\]|(?=(?:\.|\[\])(?:\.|\[\]|%$))/g;
 var reEscapeChar$1 = /\\(\\)?/g;
 var stringToPath$2 = function stringToPath(string2) {
@@ -6656,20 +6669,20 @@ var setFunctionLength = function setFunctionLength2(fn, length) {
   return fn;
 };
 (function(module2) {
-  var bind3 = functionBind;
+  var bind2 = requireFunctionBind();
   var GetIntrinsic3 = getIntrinsic;
   var setFunctionLength$1 = setFunctionLength;
   var $TypeError2 = type$1;
   var $apply2 = GetIntrinsic3("%Function.prototype.apply%");
   var $call2 = GetIntrinsic3("%Function.prototype.call%");
-  var $reflectApply = GetIntrinsic3("%Reflect.apply%", true) || bind3.call($call2, $apply2);
+  var $reflectApply = GetIntrinsic3("%Reflect.apply%", true) || bind2.call($call2, $apply2);
   var $defineProperty2 = esDefineProperty;
   var $max = GetIntrinsic3("%Math.max%");
   module2.exports = function callBind2(originalFunction) {
     if (typeof originalFunction !== "function") {
       throw new $TypeError2("a function is required");
     }
-    var func = $reflectApply(bind3, $call2, arguments);
+    var func = $reflectApply(bind2, $call2, arguments);
     return setFunctionLength$1(
       func,
       1 + $max(0, originalFunction.length - (arguments.length - 1)),
@@ -6677,7 +6690,7 @@ var setFunctionLength = function setFunctionLength2(fn, length) {
     );
   };
   var applyBind = function applyBind2() {
-    return $reflectApply(bind3, $apply2, arguments);
+    return $reflectApply(bind2, $apply2, arguments);
   };
   if ($defineProperty2) {
     $defineProperty2(module2.exports, "apply", { value: applyBind });
@@ -8077,16 +8090,13 @@ function buildDynamicZonePopulate(attr, depth2 = 5, path2 = "") {
   };
   for (const componentName of attr.components) {
     const componentModel = getModel(componentName);
-    console.log(`Building populate for dynamic zone component: ${componentName}`);
     const componentPopulate = buildComponentPopulate(componentModel, depth2 - 1, path2);
     populate2.on[componentName] = componentPopulate === true ? { populate: "*" } : { populate: componentPopulate };
   }
   return populate2;
 }
 function buildPopulateForModel(slug, depth2 = 5) {
-  console.log(`Building populate for ${slug} at depth ${depth2}`);
   if (depth2 < 1) {
-    console.log(`Max depth reached for ${slug}`);
     return true;
   }
   const model = getModel(slug);
@@ -8099,14 +8109,11 @@ function buildPopulateForModel(slug, depth2 = 5) {
     if (!attrDef)
       continue;
     if (isRelationAttribute(attrDef) || isComponentAttribute(attrDef) || isDynamicZoneAttribute$1(attrDef) || isMediaAttribute$1(attrDef)) {
-      console.log(`Found special attribute ${attrName} of type ${attrDef.type}`);
       if (isComponentAttribute(attrDef)) {
-        console.log(`Building nested populate for component ${attrDef.component}`);
         const componentModel = getModel(attrDef.component);
         const componentPopulate = buildComponentPopulate(componentModel, depth2 - 1, attrName);
         populate2[attrName] = componentPopulate === true ? true : { populate: componentPopulate };
       } else if (isDynamicZoneAttribute$1(attrDef)) {
-        console.log(`Building dynamic zone populate for ${attrName}`);
         populate2[attrName] = buildDynamicZonePopulate(attrDef, depth2 - 1, attrName);
       } else if (isRelationAttribute(attrDef)) {
         populate2[attrName] = true;
@@ -8115,18 +8122,15 @@ function buildPopulateForModel(slug, depth2 = 5) {
       }
     }
   }
-  console.log(`Populate object for ${slug}:`, JSON.stringify(populate2, null, 2));
   return populate2;
 }
 function attributeIsUnique$1(attribute) {
   return ["string", "text", "email", "integer", "biginteger", "float", "decimal"].includes(attribute.type);
 }
 function getIdentifierField(model) {
-  console.log("getIdentifierField for model:", model.uid);
   const importExportOptions = model.pluginOptions?.[pluginId];
   if (importExportOptions?.idField) {
     const configuredField = importExportOptions.idField;
-    console.log("Using configured idField:", configuredField);
     const attribute = model.attributes[configuredField];
     if (!attribute) {
       throw new Error(`Configured idField '${configuredField}' not found in model '${model.uid}'`);
@@ -8139,14 +8143,12 @@ function getIdentifierField(model) {
     return configuredField;
   }
   const attributes = model.attributes || {};
-  console.log("Looking for identifier in attributes:", Object.keys(attributes));
   if (attributes.uid)
     return "uid";
   if (attributes.name)
     return "name";
   if (attributes.title)
     return "title";
-  console.log("Falling back to id");
   return "id";
 }
 function validateIdField(model) {
@@ -8297,7 +8299,6 @@ class ExportProcessor {
       },
       ...this.context.options.applySearch && searchParams.sort && { sort: searchParams.sort }
     };
-    console.log("FILTERS AND DOCS", JSON.stringify(filtersAndDocs, null, 2));
     const draftEntries = await this.services.documents(currentSlug).findMany({
       ...filtersAndDocs,
       status: "draft",
@@ -8310,7 +8311,6 @@ class ExportProcessor {
         }
       }
     });
-    console.log("DRAFT ENTRIES", JSON.stringify(draftEntries, null, 2));
     logger.debug(`Found ${draftEntries.length} draft entries`, context);
     for (const draftEntry of draftEntries) {
       await this.processEntry(currentSlug, draftEntry, model, populate2);

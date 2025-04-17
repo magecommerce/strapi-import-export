@@ -6,12 +6,10 @@ export function attributeIsUnique(attribute: Schema.Attribute.AnyAttribute): att
 }
 
 export function getIdentifierField(model: Schema.Schema): string {
-    console.log('getIdentifierField for model:', model.uid);
     // Check for configured idField in plugin options
     const importExportOptions = model.pluginOptions?.[pluginId] as { idField?: string } | undefined;
     if (importExportOptions?.idField) {
         const configuredField = importExportOptions.idField;
-        console.log('Using configured idField:', configuredField);
 
         // Validate the configured field exists and is properly set up
         const attribute = model.attributes[configuredField];
@@ -29,12 +27,10 @@ export function getIdentifierField(model: Schema.Schema): string {
 
     // Check for standard identifier fields in order
     const attributes = model.attributes || {};
-    console.log('Looking for identifier in attributes:', Object.keys(attributes));
 
     if (attributes.uid) return 'uid';
     if (attributes.name) return 'name';
     if (attributes.title) return 'title';
 
-    console.log('Falling back to id');
     return 'id';
-} 
+}

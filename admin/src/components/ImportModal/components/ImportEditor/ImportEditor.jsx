@@ -7,20 +7,20 @@ import { useForm } from '../../../../hooks/useForm';
 import { useI18n } from '../../../../hooks/useI18n';
 import { Editor } from '../../../Editor/Editor';
 
-export const ImportEditor = ({ 
-  file, 
-  data, 
-  dataFormat, 
-  slug, 
-  onDataChanged, 
+export const ImportEditor = ({
+  file,
+  data,
+  dataFormat,
+  slug,
+  onDataChanged,
   onOptionsChanged,
-  version 
+  version
 }) => {
   const { i18n } = useI18n();
   const [attributeNames, setAttributeNames] = useState([]);
   const fetchClient = useFetchClient(); // Use the hook here within the component
 
-  const { options, getOption, setOption } = useForm({ 
+  const { options, getOption, setOption } = useForm({
     idField: 'id',
     existingAction: 'warn',
     ignoreMissingRelations: false,
@@ -37,7 +37,6 @@ export const ImportEditor = ({
   useEffect(() => {
     const fetchAttributeNames = async () => {
       const { get } = fetchClient;
-      console.log('slug', slug);
       try {
         const resData = await get(`/${PLUGIN_ID}/import/model-attributes/${slug}`);
         console.log('resData', resData);
@@ -53,11 +52,9 @@ export const ImportEditor = ({
     onOptionsChanged(options);
   }, [options]);
 
-  console.log('attributeNames', attributeNames);
-
   return (
     <Tabs.Root defaultValue="file">
-      
+
       <Tabs.List aria-label="Import editor">
         <Tabs.Trigger value="file">{i18n('plugin.import.tab.file')}</Tabs.Trigger>
         <Tabs.Trigger value="options">{i18n('plugin.import.tab.options')}</Tabs.Trigger>

@@ -5,7 +5,6 @@ const SLUG_WHOLE_DB = 'custom:db';
 
 export const useSlug = () => {
   const { pathname } = useLocation();
-  console.log('pathname', pathname);
   const slug = useMemo(() => {
     // Updated regex to match 'collection-types' and 'single-types'
     const matches = pathname.match(/content-manager\/(collection-types|single-types)\/([a-zA-Z0-9\-:_.]*)/);

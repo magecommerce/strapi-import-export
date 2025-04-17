@@ -26,11 +26,6 @@ const ExportAction: BulkActionComponent = ({ documents, model, collectionType })
     icon: <Download />,
     onClick: () => {
       state.resetOptions();
-      console.log('onClick');
-      console.log('collectionType', collectionType);
-      console.log('model', model);
-      console.log('documents', documents);
-      console.log('documentIds', documentIds);
     },
     dialog: {
       type: 'modal',

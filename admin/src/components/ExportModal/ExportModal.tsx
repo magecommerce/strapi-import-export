@@ -94,7 +94,6 @@ export const useExportModal = ({
     const getData = async () => {
         setFetchingData(true);
         try {
-            console.log('fetching data');
             const res = await post(`/${PLUGIN_ID}/export/contentTypes`, {
                 data: {
                     slug,
@@ -117,7 +116,7 @@ export const useExportModal = ({
                 handleRequestErr(err as Error, {
                     403: () => notify(
                         i18n('plugin.message.export.error.forbidden.title'),
-                        i18n('plugin.message.export.error.forbidden.message'), 
+                        i18n('plugin.message.export.error.forbidden.message'),
                         'danger'
                     ),
                     412: () => notify(
@@ -126,16 +125,16 @@ export const useExportModal = ({
                         'danger'
                     ),
                     default: () => notify(
-                        i18n('plugin.message.export.error.unexpected.title'), 
-                        i18n('plugin.message.export.error.unexpected.message'), 
+                        i18n('plugin.message.export.error.unexpected.title'),
+                        i18n('plugin.message.export.error.unexpected.message'),
                         'danger'
                     ),
                 });
             } else {
 
                 notify(
-                    i18n('plugin.message.export.error.unexpected.title'), 
-                    i18n('plugin.message.export.error.unexpected.message'), 
+                    i18n('plugin.message.export.error.unexpected.title'),
+                    i18n('plugin.message.export.error.unexpected.message'),
                     'danger'
                 );
             }
@@ -193,7 +192,7 @@ export const useExportModal = ({
 
     const shouldShowDeepnessOption = () => {
         return shouldShowOption('deepness') && (
-            options.exportFormat === dataFormats.JSON_V2 || 
+            options.exportFormat === dataFormats.JSON_V2 ||
             (options.exportFormat === dataFormats.JSON_V3 && options.exportRelations)
         );
     };
@@ -267,8 +266,8 @@ export const ExportModalContent: React.FC<{ state: ReturnType<typeof useExportMo
                     </Typography>
                     {state.shouldShowOption('relationsAsId') && (
                         <Field.Root hint={i18n('plugin.export.relations-as-id.hint')}>
-                            <Checkbox 
-                                checked={state.options.relationsAsId} 
+                            <Checkbox
+                                checked={state.options.relationsAsId}
                                 onCheckedChange={(value) => state.handleSetOption('relationsAsId', value==true)}
                             >
                                 {i18n('plugin.export.relations-as-id')}
@@ -278,8 +277,8 @@ export const ExportModalContent: React.FC<{ state: ReturnType<typeof useExportMo
                     )}
                     {state.shouldShowOption('applyFilters') && (
                         <Field.Root hint={i18n('plugin.export.apply-filters-and-sort.hint')}>
-                            <Checkbox 
-                                checked={state.options.applyFilters} 
+                            <Checkbox
+                                checked={state.options.applyFilters}
                                 onCheckedChange={(value) => state.handleSetOption('applyFilters', value==true)}
                             >
                                 {i18n('plugin.export.apply-filters-and-sort')}
@@ -289,8 +288,8 @@ export const ExportModalContent: React.FC<{ state: ReturnType<typeof useExportMo
                     )}
                     {state.shouldShowOption('exportPluginsContentTypes') && (
                         <Field.Root hint={i18n('plugin.export.plugins-content-types.hint')}>
-                            <Checkbox 
-                                checked={state.options.exportPluginsContentTypes} 
+                            <Checkbox
+                                checked={state.options.exportPluginsContentTypes}
                                 onCheckedChange={(value) => state.handleSetOption('exportPluginsContentTypes', value==true)}
                             >
                                 {i18n('plugin.export.plugins-content-types')}
@@ -300,8 +299,8 @@ export const ExportModalContent: React.FC<{ state: ReturnType<typeof useExportMo
                     )}
                     {state.shouldShowOption('exportAllLocales') && (
                         <Field.Root hint={i18n('plugin.export.export-all-locales.hint')}>
-                            <Checkbox 
-                                checked={state.options.exportAllLocales} 
+                            <Checkbox
+                                checked={state.options.exportAllLocales}
                                 onCheckedChange={(value) => state.handleSetOption('exportAllLocales', value==true)}
                             >
                                 {i18n('plugin.export.export-all-locales')}
@@ -311,8 +310,8 @@ export const ExportModalContent: React.FC<{ state: ReturnType<typeof useExportMo
                     )}
                     {state.shouldShowOption('exportRelations') && (
                         <Field.Root hint={i18n('plugin.export.export-relations.hint')}>
-                            <Checkbox 
-                                checked={state.options.exportRelations} 
+                            <Checkbox
+                                checked={state.options.exportRelations}
                                 onCheckedChange={(value) => state.handleSetOption('exportRelations', value==true)}
                             >
                                 {i18n('plugin.export.export-relations')}
@@ -323,8 +322,8 @@ export const ExportModalContent: React.FC<{ state: ReturnType<typeof useExportMo
                     {state.shouldShowOption('exportRelations') && state.options.exportRelations && (
                         <Flex gap={2}>
                             <Field.Root hint={i18n('plugin.export.deep-populate-relations.hint')}>
-                                <Checkbox 
-                                    checked={state.options.deepPopulateRelations} 
+                                <Checkbox
+                                    checked={state.options.deepPopulateRelations}
                                     onCheckedChange={(value) => state.handleSetOption('deepPopulateRelations', value==true)}
                                 >
                                     {i18n('plugin.export.deep-populate-relations')}
@@ -332,8 +331,8 @@ export const ExportModalContent: React.FC<{ state: ReturnType<typeof useExportMo
                                 <Field.Hint />
                             </Field.Root>
                             <Field.Root hint={i18n('plugin.export.deep-populate-component-relations.hint')}>
-                                <Checkbox 
-                                    checked={state.options.deepPopulateComponentRelations} 
+                                <Checkbox
+                                    checked={state.options.deepPopulateComponentRelations}
                                     onCheckedChange={(value) => state.handleSetOption('deepPopulateComponentRelations', value==true)}
                                 >
                                     {i18n('plugin.export.deep-populate-component-relations')}
@@ -344,13 +343,13 @@ export const ExportModalContent: React.FC<{ state: ReturnType<typeof useExportMo
                     )}
                     {state.shouldShowDeepnessOption() && (
                         <Field.Root hint={i18n(
-                            state.options.exportFormat === dataFormats.JSON_V3 
+                            state.options.exportFormat === dataFormats.JSON_V3
                                 ? 'plugin.export.max-depth.hint'
                                 : 'plugin.export.deepness.hint'
                         )}>
                             <Typography fontWeight="bold" textColor="neutral800" tag="h2">
                                 {i18n(
-                                    state.options.exportFormat === dataFormats.JSON_V3 
+                                    state.options.exportFormat === dataFormats.JSON_V3
                                         ? 'plugin.export.max-depth'
                                         : 'plugin.export.deepness'
                                 )}
@@ -358,7 +357,7 @@ export const ExportModalContent: React.FC<{ state: ReturnType<typeof useExportMo
                             <Field.Hint />
                             <SingleSelect
                                 placeholder={i18n(
-                                    state.options.exportFormat === dataFormats.JSON_V3 
+                                    state.options.exportFormat === dataFormats.JSON_V3
                                         ? 'plugin.export.max-depth'
                                         : 'plugin.export.deepness'
                                 )}
