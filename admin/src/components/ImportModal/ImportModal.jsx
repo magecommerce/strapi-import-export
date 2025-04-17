@@ -167,9 +167,7 @@ export const ImportModal = ({ onClose }) => {
   const fetchClient = useFetchClient(); // Use the hook here within the component
 
   const connectToSSE = () => {
-    const token = JSON.parse(
-      localStorage.getItem('jwtToken') ?? sessionStorage.getItem('jwtToken') ?? '""'
-    );
+    const token = document.cookie.split('; ').find(row => row.startsWith('jwtToken='))?.split('=')[1];
 
     const backendURL = window.strapi.backendURL;
 
@@ -187,7 +185,7 @@ export const ImportModal = ({ onClose }) => {
 
     const url = normalizeUrl(`/${PLUGIN_ID}/import/progress`);
     const fullUrl = addBaseUrl(url);
-    
+
     // Close any existing connection
     if (sseConnection) {
       console.log("Closing existing SSE connection");
