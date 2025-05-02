@@ -1,7 +1,7 @@
 import { jsx, jsxs, Fragment } from "react/jsx-runtime";
 import { Page } from "@strapi/strapi/admin";
 import { Routes, Route } from "react-router-dom";
-import { u as useI18n, B as Box, F as Flex, T as Typography, C as CheckboxImpl, S as SingleSelect, l as lodashExports, a as SingleSelectOption, b as useLocalStorage, c as useExportModal, M as Main, p as pluginPermissions, I as ImportModal, d as Modal, e as Button, f as ForwardRef$3V, E as ExportModalContent, g as ExportModalFooter } from "./index-CX9HyluZ.mjs";
+import { u as useI18n, B as Box, F as Flex, T as Typography, a as useLocalStorage, C as CheckboxImpl, S as SingleSelect, l as lodashExports, b as SingleSelectOption, c as useExportModal, M as Main, p as pluginPermissions, I as ImportModal, d as Modal, e as Button, f as ForwardRef$3V, E as ExportModalContent, g as ExportModalFooter } from "./index-_F9TM_P_.mjs";
 import React__default, { useState, useCallback, memo } from "react";
 import { useIntl } from "react-intl";
 const Header = () => {
@@ -76,7 +76,7 @@ const About = () => {
 };
 const About$1 = React__default.memo(About);
 const HomePage = () => {
-  useIntl();
+  const { formatMessage } = useIntl();
   const { i18n } = useI18n();
   const state = useExportModal({ unavailableOptions: ["exportPluginsContentTypes"] });
   return /* @__PURE__ */ jsx(Fragment, { children: /* @__PURE__ */ jsx(Main, { children: /* @__PURE__ */ jsxs(Box, { padding: 6, paddingTop: 3, children: [
@@ -127,4 +127,3 @@ const App = () => {
 export {
   App
 };
-//# sourceMappingURL=App-Cvwy_Nf8.mjs.map

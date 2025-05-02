@@ -3,7 +3,7 @@ Object.defineProperty(exports, Symbol.toStringTag, { value: "Module" });
 const jsxRuntime = require("react/jsx-runtime");
 const admin = require("@strapi/strapi/admin");
 const reactRouterDom = require("react-router-dom");
-const index = require("./index-B1GXeynr.js");
+const index = require("./index-BEI_qzFr.js");
 const React = require("react");
 const reactIntl = require("react-intl");
 const _interopDefault = (e) => e && e.__esModule ? e : { default: e };
@@ -80,7 +80,7 @@ const About = () => {
 };
 const About$1 = React__default.default.memo(About);
 const HomePage = () => {
-  reactIntl.useIntl();
+  const { formatMessage } = reactIntl.useIntl();
   const { i18n } = index.useI18n();
   const state = index.useExportModal({ unavailableOptions: ["exportPluginsContentTypes"] });
   return /* @__PURE__ */ jsxRuntime.jsx(jsxRuntime.Fragment, { children: /* @__PURE__ */ jsxRuntime.jsx(index.Main, { children: /* @__PURE__ */ jsxRuntime.jsxs(index.Box, { padding: 6, paddingTop: 3, children: [
@@ -129,4 +129,3 @@ const App = () => {
   ] });
 };
 exports.App = App;
-//# sourceMappingURL=App-f6dkEhXs.js.map
