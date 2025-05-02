@@ -2,7 +2,6 @@ import { Schema } from '@strapi/types';
 import { attributeIsUnique, getIdentifierField } from '../../utils/identifiers';
 
 export function validateIdField(model: Schema.Schema) {
-    // console.log('validateIdField', model);
     const idField = getIdentifierField(model);
     const attribute: Schema.Attribute.AnyAttribute = model.attributes[idField];
 

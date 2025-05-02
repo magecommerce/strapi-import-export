@@ -28,6 +28,8 @@ export const ImportEditor = ({
     disallowNewRelations: false,
   });
 
+  const token = document.cookie.split('; ').find(row => row.startsWith('jwtToken='))?.split('=')[1];
+
   useEffect(() => {
     if (options.existingAction === 'skip') {
       setOption('disallowNewRelations', true);
@@ -38,7 +40,7 @@ export const ImportEditor = ({
     const fetchAttributeNames = async () => {
       const { get } = fetchClient;
       try {
-        const resData = await get(`/${PLUGIN_ID}/import/model-attributes/${slug}`);
+        const resData = await get(`/${PLUGIN_ID}/import/model-attributes/${slug}`, { headers: { 'Authorization': `Bearer ${token}` }});
         console.log('resData', resData);
         setAttributeNames(resData?.data?.data?.attribute_names);
       } catch (error) {
